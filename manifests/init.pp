@@ -119,6 +119,7 @@ class crowdstrike (
           unless    => "if [[ $(falconctl -g --tags | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${tags} ]];then exit 0; else exit 1;fi",
           # lint:endignore
           logoutput => true,
+          provider  => 'shell',
           require   => Package['falcon-sensor'],
           notify    => Service['falcon-sensor'],
         }
@@ -132,6 +133,7 @@ class crowdstrike (
           unless    => "if [[ $(falconctl -g --aph | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_host} ]];then exit 0; else exit 1;fi",
           # lint:endignore
           logoutput => true,
+          provider  => 'shell',
           require   => Package['falcon-sensor'],
           notify    => Service['falcon-sensor'],
         }
@@ -143,6 +145,7 @@ class crowdstrike (
           unless    => "if [[ $(falconctl -g --app | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_port} ]];then exit 0; else exit 1;fi",
           # lint:endignore
           logoutput => true,
+          provider  => 'shell',
           require   => Package['falcon-sensor'],
           notify    => Service['falcon-sensor'],
         }
@@ -163,6 +166,7 @@ class crowdstrike (
         unless    => "if [[ $(echo ${cid} | sed -e 's/\\(.*\\)/\\L\\1/' | cut -d '-' -f1) =~ $(falconctl -g --cid | cut -d '\"' -f 2) ]];then exit 0; else exit 1;fi",
         # lint:endignore
         logoutput => true,
+        provider  => 'shell',
         require   => Package['falcon-sensor'],
         notify    => Service['falcon-sensor'],
       }
