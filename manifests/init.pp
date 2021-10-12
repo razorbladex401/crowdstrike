@@ -113,7 +113,7 @@ class crowdstrike (
 
       if ($update_tags != '') {
         exec { 'update-falcon-tags':
-          path      => '/usr/bin:/usr/sbin:/opt/CrowdStrike',
+          path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
           command   => "falconctl -sf${update_tags}",
           # lint:ignore:140chars
           unless    => "if [[ \$(falconctl -g --tags | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${tags} ]];then exit 0; else exit 1;fi",
@@ -126,7 +126,7 @@ class crowdstrike (
 
       if ($update_proxy != '') {
         exec { 'update-falcon-proxy-host':
-          path      => '/usr/bin:/usr/sbin:/opt/CrowdStrike',
+          path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
           command   => "falconctl -sf${update_proxy}",
           # lint:ignore:140chars
           unless    => "if [[ \$(falconctl -g --aph | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_host} ]];then exit 0; else exit 1;fi",
@@ -137,7 +137,7 @@ class crowdstrike (
         }
 
         exec { 'update-falcon-proxy-port':
-          path      => '/usr/bin:/usr/sbin:/opt/CrowdStrike',
+          path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
           command   => "falconctl -sf${update_proxy}",
           # lint:ignore:140chars
           unless    => "if [[ \$(falconctl -g --app | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_port} ]];then exit 0; else exit 1;fi",
@@ -157,7 +157,7 @@ class crowdstrike (
       $cmd_cid = " --cid=${cid}"
 
       exec { 'register-crowdstrike':
-        path      => '/usr/bin:/usr/sbin:/opt/CrowdStrike',
+        path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
         command   => "falconctl -s${cmd_cid}${cmd_proxy}${cmd_tags}",
         # lint:ignore:140chars
         unless    => "if [[ \$(echo ${cid} | sed -e 's/\\(.*\\)/\\L\\1/' | cut -d '-' -f1) =~ $(falconctl -g --cid | cut -d '\"' -f 2) ]];then exit 0; else exit 1;fi",
