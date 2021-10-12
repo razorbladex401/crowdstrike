@@ -116,7 +116,7 @@ class crowdstrike (
           path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
           command   => "falconctl -sf${update_tags}",
           # lint:ignore:140chars
-          unless    => "if [[ \$(falconctl -g --tags | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${tags} ]];then exit 0; else exit 1;fi",
+          unless    => "if [[ $(falconctl -g --tags | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${tags} ]];then exit 0; else exit 1;fi",
           # lint:endignore
           logoutput => true,
           require   => Package['falcon-sensor'],
@@ -129,7 +129,7 @@ class crowdstrike (
           path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
           command   => "falconctl -sf${update_proxy}",
           # lint:ignore:140chars
-          unless    => "if [[ \$(falconctl -g --aph | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_host} ]];then exit 0; else exit 1;fi",
+          unless    => "if [[ $(falconctl -g --aph | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_host} ]];then exit 0; else exit 1;fi",
           # lint:endignore
           logoutput => true,
           require   => Package['falcon-sensor'],
@@ -140,7 +140,7 @@ class crowdstrike (
           path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
           command   => "falconctl -sf${update_proxy}",
           # lint:ignore:140chars
-          unless    => "if [[ \$(falconctl -g --app | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_port} ]];then exit 0; else exit 1;fi",
+          unless    => "if [[ $(falconctl -g --app | cut -d '=' -f 2 | rev | cut -c2- | rev) == ${proxy_port} ]];then exit 0; else exit 1;fi",
           # lint:endignore
           logoutput => true,
           require   => Package['falcon-sensor'],
@@ -160,7 +160,7 @@ class crowdstrike (
         path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
         command   => "falconctl -s${cmd_cid}${cmd_proxy}${cmd_tags}",
         # lint:ignore:140chars
-        unless    => "if [[ \$(echo ${cid} | sed -e 's/\\(.*\\)/\\L\\1/' | cut -d '-' -f1) =~ $(falconctl -g --cid | cut -d '\"' -f 2) ]];then exit 0; else exit 1;fi",
+        unless    => "if [[ $(echo ${cid} | sed -e 's/\\(.*\\)/\\L\\1/' | cut -d '-' -f1) =~ $(falconctl -g --cid | cut -d '\"' -f 2) ]];then exit 0; else exit 1;fi",
         # lint:endignore
         logoutput => true,
         require   => Package['falcon-sensor'],
