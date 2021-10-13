@@ -163,7 +163,7 @@ class crowdstrike (
         path      => '/bin:/usr/bin:/sbin:/usr/sbin:/opt/CrowdStrike',
         command   => "falconctl -s${cmd_cid}${cmd_proxy}${cmd_tags}",
         # lint:ignore:140chars
-        unless    => "if [[ $(echo ${cid} | sed -e 's/\\(.*\\)/\\L\\1/' | cut -d '-' -f1) =~ $(falconctl -g --cid | cut -d '\"' -f 2) ]];then exit 0; else exit 1;fi",
+        unless    => "falconcid=$(falconctl -g --cid | cut -d '\"' -f 2);if [[ $(echo ${cid} | sed -e 's/\\(.*\\)/\\L\\1/' | cut -d '-' -f1) == \$falconcid ]];then exit 0; else exit 1;fi",
         # lint:endignore
         logoutput => true,
         provider  => 'shell',
