@@ -78,7 +78,7 @@ class crowdstrike (
       # crowdstrike is installed and configured.
       # get currently used tags
       $current_tags = $facts.get('falcon_sensor.tags', undef)
-      if $current_tags and (sort($tags) != sort($current_tags)) {
+      if $current_tags and ($tags != undef) and (sort($tags) != sort($current_tags)) {
         $update_tags = $cmd_tags
       } else {
         $update_tags = ''
